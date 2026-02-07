@@ -159,7 +159,8 @@ public struct DSButtonRenderModel {
 }
 
 public struct DSButton: View {
-    private let title: String
+    private let title: String?
+    private let label: AnyView?
     private let config: DSButtonConfig
     private let state: DSButtonState
     private let action: () -> Void
@@ -173,6 +174,20 @@ public struct DSButton: View {
         action: @escaping () -> Void
     ) {
         self.title = title
+        self.label = nil
+        self.config = config
+        self.state = state
+        self.action = action
+    }
+
+    public init(
+        config: DSButtonConfig = DSButtonConfig(),
+        state: DSButtonState = DSButtonState(),
+        action: @escaping () -> Void,
+        @ViewBuilder label: () -> some View
+    ) {
+        self.title = nil
+        self.label = AnyView(label())
         self.config = config
         self.state = state
         self.action = action
@@ -193,18 +208,23 @@ public struct DSButton: View {
                         .tint(model.spinnerColor)
                 }
 
-                if let icon = config.icon, config.iconPosition == .leading {
-                    icon
-                        .foregroundColor(model.iconColor)
-                }
+                if let label {
+                    label
+                        .foregroundColor(model.foreground)
+                } else if let title {
+                    if let icon = config.icon, config.iconPosition == .leading {
+                        icon
+                            .foregroundColor(model.iconColor)
+                    }
 
-                Text(title)
-                    .font(model.font)
-                    .foregroundColor(model.foreground)
+                    Text(title)
+                        .font(model.font)
+                        .foregroundColor(model.foreground)
 
-                if let icon = config.icon, config.iconPosition == .trailing {
-                    icon
-                        .foregroundColor(model.iconColor)
+                    if let icon = config.icon, config.iconPosition == .trailing {
+                        icon
+                            .foregroundColor(model.iconColor)
+                    }
                 }
             }
             .frame(maxWidth: config.isFullWidth ? .infinity : nil)
