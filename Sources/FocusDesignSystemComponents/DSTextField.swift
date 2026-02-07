@@ -253,8 +253,8 @@ public extension DSTextFieldValidation {
         switch result {
         case .valid:
             self = .valid
-        case .invalid(let message):
-            self = .invalid(message)
+        case .invalid(let error):
+            self = .invalid(error.message)
         }
     }
 }

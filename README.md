@@ -183,6 +183,7 @@ DSTreeGraphView(
 - iOS + iPadOS roadmap: `Docs/IOS_IPADOS_ROADMAP.md`
 - Development guide: `Docs/DEVELOPMENT_GUIDE.md`
 - Sample screens: `Sources/FocusDesignSystemComponents/Examples/DSSampleScreens.swift`
+- Validation framework: `Docs/VALIDATION.md`
 
 ## Primitives (Intended Scope)
 The following primitives are designed for cross-platform reuse and should stay
