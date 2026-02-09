@@ -1,22 +1,28 @@
 import SwiftUI
 
-/// A lightweight action surface.
-///
-/// This intentionally applies no layout or styling beyond `.buttonStyle(.plain)`,
-/// so callers can fully control appearance while still standardizing interactive
-/// behavior through a single component.
 public struct DSActionButton<Label: View>: View {
+    private let isEnabled: Bool
     private let action: () -> Void
-    private let label: () -> Label
+    private let label: Label
 
-    public init(action: @escaping () -> Void, @ViewBuilder label: @escaping () -> Label) {
+    public init(
+        isEnabled: Bool = true,
+        action: @escaping () -> Void,
+        @ViewBuilder label: () -> Label
+    ) {
+        self.isEnabled = isEnabled
         self.action = action
-        self.label = label
+        self.label = label()
     }
 
     public var body: some View {
-        Button(action: action, label: label)
-            .buttonStyle(.plain)
+        label
+            .contentShape(Rectangle())
+            .onTapGesture {
+                guard isEnabled else { return }
+                action()
+            }
+            .opacity(isEnabled ? 1.0 : 0.6)
+            .allowsHitTesting(isEnabled)
     }
 }
-
