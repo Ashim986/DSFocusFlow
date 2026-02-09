@@ -105,6 +105,8 @@ public struct DSSegmentedControl: View {
                         .foregroundColor(isSelected ? model.selectedTextColor : model.textColor)
                         .frame(maxWidth: config.isFullWidth ? .infinity : nil)
                         .padding(.vertical, theme.spacing.sm)
+                        // Ensure the full segment rect is tappable, not just the glyph bounds.
+                        .contentShape(Rectangle())
                         .background(isSelected ? model.selectedBackground : Color.clear)
                 })
                 .buttonStyle(.plain)
